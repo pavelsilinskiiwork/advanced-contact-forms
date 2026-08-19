@@ -1,0 +1,129 @@
+/* Frontend Form Styles */
+.acf-form-wrap {
+    max-width: 600px;
+    margin: 0 auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.acf-form {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.acf-field {
+    margin-bottom: 20px;
+}
+
+.acf-field label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.acf-required {
+    color: #e53e3e;
+    margin-left: 2px;
+}
+
+.acf-field input[type="text"],
+.acf-field input[type="email"],
+.acf-field input[type="phone"],
+.acf-field input[type="tel"],
+.acf-field textarea,
+.acf-field select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.acf-field input:focus,
+.acf-field textarea:focus,
+.acf-field select:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74,144,226,0.15);
+}
+
+.acf-field textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.acf-field-error {
+    display: block;
+    color: #e53e3e;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.acf-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.acf-checkbox-label input {
+    width: auto !important;
+}
+
+/* Submit */
+.acf-submit {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.acf-submit-btn {
+    background: #4a90e2;
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.acf-submit-btn:hover {
+    background: #357abd;
+}
+
+.acf-submit-btn:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+/* Messages */
+.acf-form-success {
+    background: #d4edda;
+    color: #155724;
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-top: 16px;
+    font-weight: 500;
+}
+
+.acf-form-error {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin-top: 16px;
+}
+
+/* Field with error */
+.acf-field.has-error input,
+.acf-field.has-error textarea,
+.acf-field.has-error select {
+    border-color: #e53e3e;
+}
