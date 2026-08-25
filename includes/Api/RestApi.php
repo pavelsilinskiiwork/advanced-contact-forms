@@ -4,7 +4,7 @@ namespace ACF\Api;
 
 class RestApi
 {
-    private string $namespace = 'acf/v1';
+    private string $namespace = 'pavelsilinskii-cf/v1';
 
     public function init(): void
     {

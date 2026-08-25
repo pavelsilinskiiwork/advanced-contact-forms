@@ -35,10 +35,10 @@
         <h2><?php esc_html_e('REST API', 'advanced-contact-forms'); ?></h2>
         <p><?php esc_html_e('Available endpoints:', 'advanced-contact-forms'); ?></p>
         <ul>
-            <li><code>GET <?php echo esc_url(rest_url('acf/v1/forms')); ?></code> — <?php esc_html_e('List all forms (admin)', 'advanced-contact-forms'); ?></li>
-            <li><code>GET <?php echo esc_url(rest_url('acf/v1/forms/{id}')); ?></code> — <?php esc_html_e('Get form fields', 'advanced-contact-forms'); ?></li>
-            <li><code>POST <?php echo esc_url(rest_url('acf/v1/forms/{id}/submit')); ?></code> — <?php esc_html_e('Submit form', 'advanced-contact-forms'); ?></li>
-            <li><code>GET <?php echo esc_url(rest_url('acf/v1/forms/{id}/submissions')); ?></code> — <?php esc_html_e('Get submissions (admin)', 'advanced-contact-forms'); ?></li>
+            <li><code>GET <?php echo esc_url(rest_url('pavelsilinskii-cf/v1/forms')); ?></code> — <?php esc_html_e('List all forms (admin)', 'advanced-contact-forms'); ?></li>
+            <li><code>GET <?php echo esc_url(rest_url('pavelsilinskii-cf/v1/forms/{id}')); ?></code> — <?php esc_html_e('Get form fields', 'advanced-contact-forms'); ?></li>
+            <li><code>POST <?php echo esc_url(rest_url('pavelsilinskii-cf/v1/forms/{id}/submit')); ?></code> — <?php esc_html_e('Submit form', 'advanced-contact-forms'); ?></li>
+            <li><code>GET <?php echo esc_url(rest_url('pavelsilinskii-cf/v1/forms/{id}/submissions')); ?></code> — <?php esc_html_e('Get submissions (admin)', 'advanced-contact-forms'); ?></li>
         </ul>
     </div>
 </div>

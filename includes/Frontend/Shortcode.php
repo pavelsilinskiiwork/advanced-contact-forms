@@ -28,7 +28,7 @@ class Shortcode
         );
 
         wp_localize_script('acf-frontend', 'acfFrontend', [
-            'restUrl' => rest_url('acf/v1/'),
+            'restUrl' => rest_url('pavelsilinskii-cf/v1/'),
             'nonce' => wp_create_nonce('wp_rest'),
         ]);
     }

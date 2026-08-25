@@ -111,21 +111,21 @@ Replace `1` with your form's ID.
 
 ## REST API
 
-The plugin registers a REST API namespace at `acf/v1`.
+The plugin registers a REST API namespace at `pavelsilinskii-cf/v1`.
 
 ### Endpoints
 
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
-| GET | `/wp-json/acf/v1/forms` | Admin | List all forms |
-| GET | `/wp-json/acf/v1/forms/{id}` | Public | Get form fields |
-| POST | `/wp-json/acf/v1/forms/{id}/submit` | Public | Submit a form |
-| GET | `/wp-json/acf/v1/forms/{id}/submissions` | Admin | Get submissions |
+| GET | `/wp-json/pavelsilinskii-cf/v1/forms` | Admin | List all forms |
+| GET | `/wp-json/pavelsilinskii-cf/v1/forms/{id}` | Public | Get form fields |
+| POST | `/wp-json/pavelsilinskii-cf/v1/forms/{id}/submit` | Public | Submit a form |
+| GET | `/wp-json/pavelsilinskii-cf/v1/forms/{id}/submissions` | Admin | Get submissions |
 
 ### Submit a Form via API
 
 ```bash
-curl -X POST https://yoursite.com/wp-json/acf/v1/forms/1/submit \
+curl -X POST https://yoursite.com/wp-json/pavelsilinskii-cf/v1/forms/1/submit \
   -H "Content-Type: application/json" \
   -H "X-WP-Nonce: your_nonce" \
   -d '{
@@ -162,7 +162,7 @@ curl -X POST https://yoursite.com/wp-json/acf/v1/forms/1/submit \
 ### Get Form Fields
 
 ```bash
-curl https://yoursite.com/wp-json/acf/v1/forms/1
+curl https://yoursite.com/wp-json/pavelsilinskii-cf/v1/forms/1
 ```
 
 **Response:**
@@ -192,7 +192,7 @@ curl https://yoursite.com/wp-json/acf/v1/forms/1
 ### Get Submissions (Admin Only)
 
 ```bash
-curl https://yoursite.com/wp-json/acf/v1/forms/1/submissions \
+curl https://yoursite.com/wp-json/pavelsilinskii-cf/v1/forms/1/submissions \
   -H "X-WP-Nonce: your_admin_nonce"
 ```
 
