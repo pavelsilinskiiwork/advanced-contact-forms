@@ -27,7 +27,7 @@
                             id="acf-<?php echo esc_attr($field['name']); ?>"
                             name="<?php echo esc_attr($field['name']); ?>"
                             <?php echo !empty($field['required']) ? 'required' : ''; ?>>
-                            <option value=""><?php esc_html_e('Select...', 'advanced-contact-forms'); ?></option>
+                            <option value=""><?php esc_html_e('Select...', 'contact-forms-by-pavel-silinskii'); ?></option>
                             <?php foreach ($field['options'] ?? [] as $option): ?>
                                 <option value="<?php echo esc_attr($option); ?>"><?php echo esc_html($option); ?></option>
                             <?php endforeach; ?>
@@ -63,7 +63,7 @@
 
         <div class="acf-submit">
             <button type="submit" class="acf-submit-btn">
-                <?php esc_html_e('Send Message', 'advanced-contact-forms'); ?>
+                <?php esc_html_e('Send Message', 'contact-forms-by-pavel-silinskii'); ?>
             </button>
             <span class="acf-spinner" style="display:none">⏳</span>
         </div>

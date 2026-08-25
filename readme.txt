@@ -1,8 +1,8 @@
-=== Advanced Contact Forms ===
+=== Contact Forms by Pavel Silinskii ===
 Contributors: pavelsilinskii
 Tags: contact form, form builder, rest api, csv export, email notifications
 Requires at least: 5.8
-Tested up to: 6.6
+Tested up to: 7.1
 Requires PHP: 8.0
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -12,7 +12,7 @@ A powerful contact form plugin with a drag-and-drop builder, database storage, e
 
 == Description ==
 
-Advanced Contact Forms lets you build and manage contact forms without writing any code. Every submission is stored in the WordPress database, so nothing is lost if an email notification fails to arrive.
+Contact Forms by Pavel Silinskii lets you build and manage contact forms without writing any code. Every submission is stored in the WordPress database, so nothing is lost if an email notification fails to arrive.
 
 = Features =
 
@@ -34,15 +34,15 @@ The plugin registers a REST API namespace at `pavelsilinskii-cf/v1` with endpoin
 
 = Hooks & Filters =
 
-`do_action('acf_form_submitted', $submission_id, $form_id, $data);`
+`do_action('pscf_form_submitted', $submission_id, $form_id, $data);`
 
-`apply_filters('acf_form_fields', $fields, $form_id);`
+`apply_filters('pscf_form_fields', $fields, $form_id);`
 
-`apply_filters('acf_submission_data', $data, $form_id);`
+`apply_filters('pscf_submission_data', $data, $form_id);`
 
 == Installation ==
 
-1. Upload the `advanced-contact-forms` folder to `/wp-content/plugins/`, or install the plugin directly through the WordPress Plugins screen.
+1. Upload the `contact-forms-by-pavel-silinskii` folder to `/wp-content/plugins/`, or install the plugin directly through the WordPress Plugins screen.
 2. Activate the plugin through the **Plugins** menu in WordPress.
 3. Go to **Contact Forms** in the admin menu to create your first form.
 4. Add fields, configure the notification email, and click **Save Form**.
@@ -56,7 +56,7 @@ Use the shortcode `[contact_form id="1"]` on any page, post, or widget, replacin
 
 = Where are submissions stored? =
 
-Submissions are stored in dedicated database tables (`{prefix}_acf_forms` and `{prefix}_acf_submissions`), separate from WordPress core tables.
+Submissions are stored in dedicated database tables (`{prefix}pscf_forms` and `{prefix}pscf_submissions`), separate from WordPress core tables.
 
 = Can I export submissions? =
 

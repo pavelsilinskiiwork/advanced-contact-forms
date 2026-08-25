@@ -2,6 +2,10 @@
 
 namespace ACF\Api;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 class RestApi
 {
     private string $namespace = 'pavelsilinskii-cf/v1';
@@ -61,7 +65,7 @@ class RestApi
             return new \WP_Error('not_found', 'Form not found', ['status' => 404]);
         }
 
-        $form['fields'] = json_decode($form['fields'], true);
+        $form['fields'] = apply_filters('pscf_form_fields', json_decode($form['fields'], true), $form['id']);
         return new \WP_REST_Response($form, 200);
     }
 
@@ -79,7 +83,7 @@ class RestApi
         }
 
         // Spam protection
-        if (get_option('acf_spam_protection') === '1') {
+        if (get_option('pscf_spam_protection') === '1') {
             $honeypot = $request->get_param('website');
             if (!empty($honeypot)) {
                 return new \WP_REST_Response([
@@ -116,6 +120,8 @@ class RestApi
             ]);
         }
 
+        $submitted_data = apply_filters('pscf_submission_data', $submitted_data, $form_id);
+
         // Save submission
         $submission_id = \ACF\Core\Database::createSubmission([
             'form_id' => $form_id,
@@ -126,6 +132,8 @@ class RestApi
 
         // Send email notification
         $this->sendNotification($form, $submitted_data);
+
+        do_action('pscf_form_submitted', $submission_id, $form_id, $submitted_data);
 
         return new \WP_REST_Response([
             'success' => true,
@@ -166,7 +174,7 @@ class RestApi
     {
         $to = $form['email_to'] ?: get_option('admin_email');
         $subject = $form['email_subject'] ?: 'New Form Submission';
-        $from = get_option('acf_email_from', get_option('admin_email'));
+        $from = get_option('pscf_email_from', get_option('admin_email'));
 
         $message = "New submission received:\n\n";
         foreach ($data as $key => $value) {

@@ -2,6 +2,10 @@
 
 namespace ACF\Frontend;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 class Shortcode
 {
     public function init(): void
@@ -13,21 +17,21 @@ class Shortcode
     public function enqueueAssets(): void
     {
         wp_enqueue_style(
-            'acf-frontend',
-            ACF_PLUGIN_URL . 'assets/css/frontend.css',
+            'pscf-frontend',
+            PSCF_PLUGIN_URL . 'assets/css/frontend.css',
             [],
-            ACF_VERSION
+            PSCF_VERSION
         );
 
         wp_enqueue_script(
-            'acf-frontend',
-            ACF_PLUGIN_URL . 'assets/js/frontend.js',
+            'pscf-frontend',
+            PSCF_PLUGIN_URL . 'assets/js/frontend.js',
             ['jquery'],
-            ACF_VERSION,
+            PSCF_VERSION,
             true
         );
 
-        wp_localize_script('acf-frontend', 'acfFrontend', [
+        wp_localize_script('pscf-frontend', 'pscfFrontend', [
             'restUrl' => rest_url('pavelsilinskii-cf/v1/'),
             'nonce' => wp_create_nonce('wp_rest'),
         ]);
@@ -51,7 +55,7 @@ class Shortcode
         $fields = json_decode($form['fields'], true) ?? [];
 
         ob_start();
-        include ACF_PLUGIN_DIR . 'templates/frontend/form.php';
+        include PSCF_PLUGIN_DIR . 'templates/frontend/form.php';
         return ob_get_clean();
     }
 }

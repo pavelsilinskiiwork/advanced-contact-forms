@@ -2,6 +2,10 @@
 
 namespace ACF\Core;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 class Database
 {
     private static string $forms_table;
@@ -10,20 +14,20 @@ class Database
     public static function init(): void
     {
         global $wpdb;
-        self::$forms_table = $wpdb->prefix . 'acf_forms';
-        self::$submissions_table = $wpdb->prefix . 'acf_submissions';
+        self::$forms_table = $wpdb->prefix . 'pscf_forms';
+        self::$submissions_table = $wpdb->prefix . 'pscf_submissions';
     }
 
     public static function getFormsTable(): string
     {
         global $wpdb;
-        return $wpdb->prefix . 'acf_forms';
+        return $wpdb->prefix . 'pscf_forms';
     }
 
     public static function getSubmissionsTable(): string
     {
         global $wpdb;
-        return $wpdb->prefix . 'acf_submissions';
+        return $wpdb->prefix . 'pscf_submissions';
     }
 
     public static function getForms(): array

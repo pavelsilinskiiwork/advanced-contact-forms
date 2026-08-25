@@ -2,6 +2,10 @@
 
 namespace ACF\Core;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 class Plugin
 {
     public function init(): void
@@ -13,9 +17,9 @@ class Plugin
     private function loadTextDomain(): void
     {
         load_plugin_textdomain(
-            'advanced-contact-forms',
+            'contact-forms-by-pavel-silinskii',
             false,
-            dirname(plugin_basename(ACF_PLUGIN_FILE)) . '/languages'
+            dirname(plugin_basename(PSCF_PLUGIN_FILE)) . '/languages'
         );
     }
 

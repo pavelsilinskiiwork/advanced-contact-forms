@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Advanced Contact Forms
+ * Plugin Name: Contact Forms by Pavel Silinskii
  * Plugin URI: https://github.com/pavelsilinskiiwork/advanced-contact-forms
  * Description: Advanced contact forms with database storage, email notifications, REST API and CSV export.
  * Version: 1.0.0
@@ -8,7 +8,7 @@
  * Author URI: https://linkedin.com/in/pavel-silinskii
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: advanced-contact-forms
+ * Text Domain: contact-forms-by-pavel-silinskii
  * Domain Path: /languages
  */
 
@@ -16,15 +16,15 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('ACF_VERSION', '1.0.0');
-define('ACF_PLUGIN_DIR', plugin_dir_path(__FILE__));
-define('ACF_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('ACF_PLUGIN_FILE', __FILE__);
+define('PSCF_VERSION', '1.0.0');
+define('PSCF_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('PSCF_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('PSCF_PLUGIN_FILE', __FILE__);
 
 // Autoload classes
 spl_autoload_register(function ($class) {
     $prefix = 'ACF\\';
-    $base_dir = ACF_PLUGIN_DIR . 'includes/';
+    $base_dir = PSCF_PLUGIN_DIR . 'includes/';
 
     $len = strlen($prefix);
     if (strncmp($prefix, $class, $len) !== 0) {
@@ -40,13 +40,13 @@ spl_autoload_register(function ($class) {
 });
 
 // Initialize plugin
-function acf_init(): void
+function pscf_init(): void
 {
     $plugin = new ACF\Core\Plugin();
     $plugin->init();
 }
 
-add_action('plugins_loaded', 'acf_init');
+add_action('plugins_loaded', 'pscf_init');
 
 // Activation hook
 register_activation_hook(__FILE__, function () {

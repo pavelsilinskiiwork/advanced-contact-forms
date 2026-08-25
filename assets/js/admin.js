@@ -23,20 +23,20 @@ jQuery(function ($) {
 
     // Delete form
     $(document).on('click', '.acf-delete-form', function () {
-        if (!confirm(acfAdmin.strings.confirmDelete)) return;
+        if (!confirm(pscfAdmin.strings.confirmDelete)) return;
 
         const formId = $(this).data('form-id');
         const row = $(this).closest('tr');
 
-        $.post(acfAdmin.ajaxUrl, {
-            action: 'acf_delete_form',
+        $.post(pscfAdmin.ajaxUrl, {
+            action: 'pscf_delete_form',
             form_id: formId,
-            nonce: acfAdmin.nonce,
+            nonce: pscfAdmin.nonce,
         }, function (response) {
             if (response.success) {
                 row.fadeOut(300, function () { row.remove(); });
             } else {
-                alert(acfAdmin.strings.error);
+                alert(pscfAdmin.strings.error);
             }
         });
     });
@@ -123,9 +123,9 @@ jQuery(function ($) {
         btn.prop('disabled', true).text('Saving...');
         $('#acf-save-status').text('');
 
-        $.post(acfAdmin.ajaxUrl, {
-            action: 'acf_save_form',
-            nonce: acfAdmin.nonce,
+        $.post(pscfAdmin.ajaxUrl, {
+            action: 'pscf_save_form',
+            nonce: pscfAdmin.nonce,
             form_id: formId,
             name,
             description: $('#acf-description').val(),
@@ -140,15 +140,15 @@ jQuery(function ($) {
             if (response.success) {
                 btn.text('Update Form');
                 btn.data('form-id', response.data.form_id);
-                $('#acf-save-status').text(acfAdmin.strings.saved).css('color', 'green');
+                $('#acf-save-status').text(pscfAdmin.strings.saved).css('color', 'green');
 
                 if (!formId) {
                     window.location.href =
-                        `admin.php?page=acf-new-form&form_id=${response.data.form_id}&saved=1`;
+                        `admin.php?page=pscf-new-form&form_id=${response.data.form_id}&saved=1`;
                 }
             } else {
                 btn.text('Save Form');
-                $('#acf-save-status').text(acfAdmin.strings.error).css('color', 'red');
+                $('#acf-save-status').text(pscfAdmin.strings.error).css('color', 'red');
             }
         });
     });

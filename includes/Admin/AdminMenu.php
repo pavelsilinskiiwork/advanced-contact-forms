@@ -2,86 +2,90 @@
 
 namespace ACF\Admin;
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 class AdminMenu
 {
     public function init(): void
     {
         add_action('admin_menu', [$this, 'registerMenus']);
         add_action('admin_enqueue_scripts', [$this, 'enqueueAssets']);
-        add_action('wp_ajax_acf_save_form', [$this, 'ajaxSaveForm']);
-        add_action('wp_ajax_acf_delete_form', [$this, 'ajaxDeleteForm']);
-        add_action('wp_ajax_acf_export_csv', [$this, 'exportCsv']);
+        add_action('wp_ajax_pscf_save_form', [$this, 'ajaxSaveForm']);
+        add_action('wp_ajax_pscf_delete_form', [$this, 'ajaxDeleteForm']);
+        add_action('wp_ajax_pscf_export_csv', [$this, 'exportCsv']);
     }
 
     public function registerMenus(): void
     {
         add_menu_page(
-            __('Contact Forms', 'advanced-contact-forms'),
-            __('Contact Forms', 'advanced-contact-forms'),
+            __('Contact Forms', 'contact-forms-by-pavel-silinskii'),
+            __('Contact Forms', 'contact-forms-by-pavel-silinskii'),
             'manage_options',
-            'advanced-contact-forms',
+            'contact-forms-by-pavel-silinskii',
             [$this, 'renderFormsPage'],
             'dashicons-email-alt',
             30
         );
 
         add_submenu_page(
-            'advanced-contact-forms',
-            __('All Forms', 'advanced-contact-forms'),
-            __('All Forms', 'advanced-contact-forms'),
+            'contact-forms-by-pavel-silinskii',
+            __('All Forms', 'contact-forms-by-pavel-silinskii'),
+            __('All Forms', 'contact-forms-by-pavel-silinskii'),
             'manage_options',
-            'advanced-contact-forms',
+            'contact-forms-by-pavel-silinskii',
             [$this, 'renderFormsPage']
         );
 
         add_submenu_page(
-            'advanced-contact-forms',
-            __('Add New Form', 'advanced-contact-forms'),
-            __('Add New', 'advanced-contact-forms'),
+            'contact-forms-by-pavel-silinskii',
+            __('Add New Form', 'contact-forms-by-pavel-silinskii'),
+            __('Add New', 'contact-forms-by-pavel-silinskii'),
             'manage_options',
-            'acf-new-form',
+            'pscf-new-form',
             [$this, 'renderFormEditor']
         );
 
         add_submenu_page(
-            'advanced-contact-forms',
-            __('Settings', 'advanced-contact-forms'),
-            __('Settings', 'advanced-contact-forms'),
+            'contact-forms-by-pavel-silinskii',
+            __('Settings', 'contact-forms-by-pavel-silinskii'),
+            __('Settings', 'contact-forms-by-pavel-silinskii'),
             'manage_options',
-            'acf-settings',
+            'pscf-settings',
             [$this, 'renderSettings']
         );
     }
 
     public function enqueueAssets(string $hook): void
     {
-        if (!str_contains($hook, 'advanced-contact-forms') &&
-            !str_contains($hook, 'acf-')) {
+        if (!str_contains($hook, 'contact-forms-by-pavel-silinskii') &&
+            !str_contains($hook, 'pscf-')) {
             return;
         }
 
         wp_enqueue_style(
-            'acf-admin',
-            ACF_PLUGIN_URL . 'assets/css/admin.css',
+            'pscf-admin',
+            PSCF_PLUGIN_URL . 'assets/css/admin.css',
             [],
-            ACF_VERSION
+            PSCF_VERSION
         );
 
        wp_enqueue_script(
-    'acf-admin',
-    ACF_PLUGIN_URL . 'assets/js/admin.js',
-    ['jquery', 'jquery-ui-sortable'], 
-    ACF_VERSION,
+    'pscf-admin',
+    PSCF_PLUGIN_URL . 'assets/js/admin.js',
+    ['jquery', 'jquery-ui-sortable'],
+    PSCF_VERSION,
     true
 );
 
-        wp_localize_script('acf-admin', 'acfAdmin', [
+        wp_localize_script('pscf-admin', 'pscfAdmin', [
             'ajaxUrl' => admin_url('admin-ajax.php'),
-            'nonce' => wp_create_nonce('acf_admin_nonce'),
+            'nonce' => wp_create_nonce('pscf_admin_nonce'),
             'strings' => [
-                'confirmDelete' => __('Are you sure you want to delete this form?', 'advanced-contact-forms'),
-                'saved' => __('Form saved successfully!', 'advanced-contact-forms'),
-                'error' => __('An error occurred. Please try again.', 'advanced-contact-forms'),
+                'confirmDelete' => __('Are you sure you want to delete this form?', 'contact-forms-by-pavel-silinskii'),
+                'saved' => __('Form saved successfully!', 'contact-forms-by-pavel-silinskii'),
+                'error' => __('An error occurred. Please try again.', 'contact-forms-by-pavel-silinskii'),
             ],
         ]);
     }
@@ -89,7 +93,7 @@ class AdminMenu
     public function renderFormsPage(): void
     {
         $forms = \ACF\Core\Database::getForms();
-        include ACF_PLUGIN_DIR . 'templates/admin/forms-list.php';
+        include PSCF_PLUGIN_DIR . 'templates/admin/forms-list.php';
     }
 
     public function renderFormEditor(): void
@@ -99,25 +103,25 @@ class AdminMenu
         if ($form) {
             $form['fields'] = json_decode($form['fields'], true) ?? [];
         }
-        include ACF_PLUGIN_DIR . 'templates/admin/form-editor.php';
+        include PSCF_PLUGIN_DIR . 'templates/admin/form-editor.php';
     }
 
     public function renderSettings(): void
     {
-        if (isset($_POST['acf_save_settings']) &&
-            check_admin_referer('acf_settings_nonce')) {
-            update_option('acf_email_from', sanitize_email($_POST['email_from']));
-            update_option('acf_spam_protection', isset($_POST['spam_protection']) ? '1' : '0');
+        if (isset($_POST['pscf_save_settings']) &&
+            check_admin_referer('pscf_settings_nonce')) {
+            update_option('pscf_email_from', sanitize_email($_POST['email_from'] ?? ''));
+            update_option('pscf_spam_protection', isset($_POST['spam_protection']) ? '1' : '0');
             echo '<div class="notice notice-success"><p>' .
-                esc_html__('Settings saved.', 'advanced-contact-forms') .
+                esc_html__('Settings saved.', 'contact-forms-by-pavel-silinskii') .
                 '</p></div>';
         }
-        include ACF_PLUGIN_DIR . 'templates/admin/settings.php';
+        include PSCF_PLUGIN_DIR . 'templates/admin/settings.php';
     }
 
     public function ajaxSaveForm(): void
     {
-        check_ajax_referer('acf_admin_nonce', 'nonce');
+        check_ajax_referer('pscf_admin_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => 'Unauthorized'], 403);
@@ -150,7 +154,7 @@ class AdminMenu
 
     public function ajaxDeleteForm(): void
     {
-        check_ajax_referer('acf_admin_nonce', 'nonce');
+        check_ajax_referer('pscf_admin_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
             wp_send_json_error(['message' => 'Unauthorized'], 403);
@@ -168,7 +172,7 @@ class AdminMenu
 
     public function exportCsv(): void
     {
-        check_ajax_referer('acf_admin_nonce', 'nonce');
+        check_ajax_referer('pscf_admin_nonce', 'nonce');
 
         if (!current_user_can('manage_options')) {
             wp_die('Unauthorized');
