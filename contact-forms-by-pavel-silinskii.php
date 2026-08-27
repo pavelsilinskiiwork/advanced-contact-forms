@@ -4,12 +4,12 @@
  * Plugin URI: https://github.com/pavelsilinskiiwork/advanced-contact-forms
  * Description: Advanced contact forms with database storage, email notifications, REST API and CSV export.
  * Version: 1.0.0
+ * Requires at least: 5.9
  * Author: Pavel Silinskii
  * Author URI: https://linkedin.com/in/pavel-silinskii
  * License: GPL v2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: contact-forms-by-pavel-silinskii
- * Domain Path: /languages
  */
 
 if (!defined('ABSPATH')) {
@@ -23,7 +23,7 @@ define('PSCF_PLUGIN_FILE', __FILE__);
 
 // Autoload classes
 spl_autoload_register(function ($class) {
-    $prefix = 'ACF\\';
+    $prefix = 'PSCF\\';
     $base_dir = PSCF_PLUGIN_DIR . 'includes/';
 
     $len = strlen($prefix);
@@ -42,7 +42,7 @@ spl_autoload_register(function ($class) {
 // Initialize plugin
 function pscf_init(): void
 {
-    $plugin = new ACF\Core\Plugin();
+    $plugin = new PSCF\Core\Plugin();
     $plugin->init();
 }
 
@@ -50,10 +50,10 @@ add_action('plugins_loaded', 'pscf_init');
 
 // Activation hook
 register_activation_hook(__FILE__, function () {
-    ACF\Core\Installer::activate();
+    PSCF\Core\Installer::activate();
 });
 
 // Deactivation hook
 register_deactivation_hook(__FILE__, function () {
-    ACF\Core\Installer::deactivate();
+    PSCF\Core\Installer::deactivate();
 });

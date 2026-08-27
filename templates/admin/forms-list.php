@@ -31,6 +31,7 @@
                 </tr>
             </thead>
             <tbody>
+                <?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local to this template, included from a class method; not a real global. ?>
                 <?php foreach ($forms as $form): ?>
                     <tr>
                         <td>
@@ -52,7 +53,8 @@
                         </td>
                         <td>
                             <?php
-                            $count = \ACF\Core\Database::countSubmissions((int)$form['id']);
+                            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local to this template, included from a class method; not a real global.
+                            $count = \PSCF\Core\Database::countSubmissions((int)$form['id']);
                             echo esc_html($count);
                             if ($count > 0): ?>
                                 <a href="<?php echo esc_url(admin_url('admin-ajax.php?action=pscf_export_csv&form_id=' . $form['id'] . '&nonce=' . wp_create_nonce('pscf_admin_nonce'))); ?>"
@@ -68,7 +70,7 @@
                                 <span class="acf-badge acf-badge-inactive"><?php esc_html_e('Inactive', 'contact-forms-by-pavel-silinskii'); ?></span>
                             <?php endif; ?>
                         </td>
-                        <td><?php echo esc_html(date('M j, Y', strtotime($form['created_at']))); ?></td>
+                        <td><?php echo esc_html(gmdate('M j, Y', strtotime($form['created_at']))); ?></td>
                         <td>
                             <a href="<?php echo esc_url(admin_url('admin.php?page=pscf-new-form&form_id=' . $form['id'])); ?>"
                                class="button button-small">

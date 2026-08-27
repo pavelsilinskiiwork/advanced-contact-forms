@@ -1,6 +1,6 @@
 <?php
 
-namespace ACF\Frontend;
+namespace PSCF\Frontend;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -46,7 +46,7 @@ class Shortcode
             return '<p class="acf-error">Please specify a form ID.</p>';
         }
 
-        $form = \ACF\Core\Database::getForm($form_id);
+        $form = \PSCF\Core\Database::getForm($form_id);
 
         if (!$form || !$form['is_active']) {
             return '<p class="acf-error">Form not found or inactive.</p>';

@@ -1,6 +1,6 @@
 <?php
 
-namespace ACF\Admin;
+namespace PSCF\Admin;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -92,14 +92,15 @@ class AdminMenu
 
     public function renderFormsPage(): void
     {
-        $forms = \ACF\Core\Database::getForms();
+        $forms = \PSCF\Core\Database::getForms();
         include PSCF_PLUGIN_DIR . 'templates/admin/forms-list.php';
     }
 
     public function renderFormEditor(): void
     {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only: just selects which form to display on this manage_options-gated page, no state change.
         $form_id = intval($_GET['form_id'] ?? 0);
-        $form = $form_id ? \ACF\Core\Database::getForm($form_id) : null;
+        $form = $form_id ? \PSCF\Core\Database::getForm($form_id) : null;
         if ($form) {
             $form['fields'] = json_decode($form['fields'], true) ?? [];
         }
@@ -110,7 +111,7 @@ class AdminMenu
     {
         if (isset($_POST['pscf_save_settings']) &&
             check_admin_referer('pscf_settings_nonce')) {
-            update_option('pscf_email_from', sanitize_email($_POST['email_from'] ?? ''));
+            update_option('pscf_email_from', sanitize_email(wp_unslash($_POST['email_from'] ?? '')));
             update_option('pscf_spam_protection', isset($_POST['spam_protection']) ? '1' : '0');
             echo '<div class="notice notice-success"><p>' .
                 esc_html__('Settings saved.', 'contact-forms-by-pavel-silinskii') .
@@ -128,12 +129,13 @@ class AdminMenu
         }
 
         $data = [
-            'name' => sanitize_text_field($_POST['name'] ?? ''),
-            'description' => sanitize_textarea_field($_POST['description'] ?? ''),
-            'fields' => json_decode(stripslashes($_POST['fields'] ?? '[]'), true),
-            'email_to' => sanitize_email($_POST['email_to'] ?? ''),
-            'email_subject' => sanitize_text_field($_POST['email_subject'] ?? ''),
-            'success_message' => sanitize_textarea_field($_POST['success_message'] ?? ''),
+            'name' => sanitize_text_field(wp_unslash($_POST['name'] ?? '')),
+            'description' => sanitize_textarea_field(wp_unslash($_POST['description'] ?? '')),
+            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- decoded JSON is whitelisted/sanitized field-by-field in sanitizeFields() right below.
+            'fields' => $this->sanitizeFields(json_decode(wp_unslash($_POST['fields'] ?? '[]'), true) ?? []),
+            'email_to' => sanitize_email(wp_unslash($_POST['email_to'] ?? '')),
+            'email_subject' => sanitize_text_field(wp_unslash($_POST['email_subject'] ?? '')),
+            'success_message' => sanitize_textarea_field(wp_unslash($_POST['success_message'] ?? '')),
             'is_active' => intval($_POST['is_active'] ?? 1),
         ];
 
@@ -144,12 +146,45 @@ class AdminMenu
         $form_id = intval($_POST['form_id'] ?? 0);
 
         if ($form_id) {
-            \ACF\Core\Database::updateForm($form_id, $data);
+            \PSCF\Core\Database::updateForm($form_id, $data);
             wp_send_json_success(['message' => 'Form updated', 'form_id' => $form_id]);
         } else {
-            $new_id = \ACF\Core\Database::createForm($data);
+            $new_id = \PSCF\Core\Database::createForm($data);
             wp_send_json_success(['message' => 'Form created', 'form_id' => $new_id]);
         }
+    }
+
+    /**
+     * Whitelist and sanitize the decoded field-definition array submitted from the form builder.
+     */
+    private function sanitizeFields(array $fields): array
+    {
+        $allowed_types = ['text', 'email', 'phone', 'textarea', 'select', 'checkbox', 'radio'];
+        $sanitized = [];
+
+        foreach ($fields as $field) {
+            if (!is_array($field)) {
+                continue;
+            }
+
+            $type = in_array($field['type'] ?? '', $allowed_types, true) ? $field['type'] : 'text';
+
+            $clean = [
+                'label' => sanitize_text_field($field['label'] ?? ''),
+                'name' => sanitize_key($field['name'] ?? ''),
+                'type' => $type,
+                'placeholder' => sanitize_text_field($field['placeholder'] ?? ''),
+                'required' => !empty($field['required']),
+            ];
+
+            if (!empty($field['options']) && is_array($field['options'])) {
+                $clean['options'] = array_map('sanitize_text_field', $field['options']);
+            }
+
+            $sanitized[] = $clean;
+        }
+
+        return $sanitized;
     }
 
     public function ajaxDeleteForm(): void
@@ -166,7 +201,7 @@ class AdminMenu
             wp_send_json_error(['message' => 'Invalid form ID']);
         }
 
-        \ACF\Core\Database::deleteForm($form_id);
+        \PSCF\Core\Database::deleteForm($form_id);
         wp_send_json_success(['message' => 'Form deleted']);
     }
 
@@ -179,16 +214,16 @@ class AdminMenu
         }
 
         $form_id = intval($_GET['form_id'] ?? 0);
-        $form = \ACF\Core\Database::getForm($form_id);
+        $form = \PSCF\Core\Database::getForm($form_id);
 
         if (!$form) {
             wp_die('Form not found');
         }
 
-        $submissions = \ACF\Core\Database::getAllSubmissionsForExport($form_id);
+        $submissions = \PSCF\Core\Database::getAllSubmissionsForExport($form_id);
 
         header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="submissions-' . $form_id . '-' . date('Y-m-d') . '.csv"');
+        header('Content-Disposition: attachment; filename="submissions-' . $form_id . '-' . gmdate('Y-m-d') . '.csv"');
 
         $output = fopen('php://output', 'w');
 
@@ -206,6 +241,7 @@ class AdminMenu
             ]);
         }
 
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- streaming a CSV to the browser via php://output, not a filesystem write; WP_Filesystem has no equivalent for this.
         fclose($output);
         exit;
     }

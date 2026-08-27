@@ -60,10 +60,12 @@
 
                 <div id="acf-fields-list">
                     <?php
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local to this template, included from a class method; not a real global.
                     $fields = $form['fields'] ?? [];
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local to this template, included from a class method; not a real global.
                     foreach ($fields as $index => $field):
                     ?>
-                        <div class="acf-field-row" data-index="<?php echo $index; ?>">
+                        <div class="acf-field-row" data-index="<?php echo esc_attr($index); ?>">
                             <div class="acf-field-handle">⠿</div>
                             <div class="acf-field-info">
                                 <strong><?php echo esc_html($field['label']); ?></strong>
@@ -73,10 +75,10 @@
                                 <?php endif; ?>
                             </div>
                             <div class="acf-field-actions">
-                                <button class="button button-small acf-edit-field" data-index="<?php echo $index; ?>">
+                                <button class="button button-small acf-edit-field" data-index="<?php echo esc_attr($index); ?>">
                                     <?php esc_html_e('Edit', 'contact-forms-by-pavel-silinskii'); ?>
                                 </button>
-                                <button class="button button-small acf-remove-field" data-index="<?php echo $index; ?>">
+                                <button class="button button-small acf-remove-field" data-index="<?php echo esc_attr($index); ?>">
                                     <?php esc_html_e('Remove', 'contact-forms-by-pavel-silinskii'); ?>
                                 </button>
                             </div>
@@ -109,6 +111,7 @@
                 <h3><?php esc_html_e('Add Field Type', 'contact-forms-by-pavel-silinskii'); ?></h3>
                 <div class="acf-field-types">
                     <?php
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local to this template, included from a class method; not a real global.
                     $types = [
                         'text' => '📝 Text',
                         'email' => '📧 Email',
@@ -118,6 +121,7 @@
                         'checkbox' => '☑️ Checkbox',
                         'radio' => '🔘 Radio',
                     ];
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local to this template, included from a class method; not a real global.
                     foreach ($types as $type => $label):
                     ?>
                         <button class="button acf-quick-add-field" data-type="<?php echo esc_attr($type); ?>">

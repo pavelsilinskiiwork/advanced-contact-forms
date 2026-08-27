@@ -1,7 +1,7 @@
 === Contact Forms by Pavel Silinskii ===
 Contributors: pavelsilinskii
 Tags: contact form, form builder, rest api, csv export, email notifications
-Requires at least: 5.8
+Requires at least: 5.9
 Tested up to: 7.1
 Requires PHP: 8.0
 Stable tag: 1.0.0

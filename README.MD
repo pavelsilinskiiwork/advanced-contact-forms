@@ -1,6 +1,6 @@
 # Contact Forms by Pavel Silinskii
 
-![WordPress](https://img.shields.io/badge/WordPress-5.8%2B-21759B?logo=wordpress&logoColor=white)
+![WordPress](https://img.shields.io/badge/WordPress-5.9%2B-21759B?logo=wordpress&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-8.0%2B-777BB4?logo=php&logoColor=white)
 ![License](https://img.shields.io/badge/License-GPL%20v2-green)
 ![Version](https://img.shields.io/badge/Version-1.0.0-blue)
@@ -348,7 +348,7 @@ The plugin creates two tables on activation:
 
 ## Requirements
 
-- WordPress 5.8+
+- WordPress 5.9+
 - PHP 8.0+
 - MySQL 5.7+ or MariaDB 10.3+
 

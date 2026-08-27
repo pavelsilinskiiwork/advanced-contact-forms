@@ -4,6 +4,7 @@
     <form class="acf-form" data-form-id="<?php echo esc_attr($form_id); ?>">
         <?php wp_nonce_field('wp_rest', '_wpnonce'); ?>
 
+        <?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local to this template, included from a class method; not a real global. ?>
         <?php foreach ($fields as $field): ?>
             <div class="acf-field acf-field-<?php echo esc_attr($field['type']); ?>">
                 <label for="acf-<?php echo esc_attr($field['name']); ?>">
@@ -28,6 +29,7 @@
                             name="<?php echo esc_attr($field['name']); ?>"
                             <?php echo !empty($field['required']) ? 'required' : ''; ?>>
                             <option value=""><?php esc_html_e('Select...', 'contact-forms-by-pavel-silinskii'); ?></option>
+                            <?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local to this template, included from a class method; not a real global. ?>
                             <?php foreach ($field['options'] ?? [] as $option): ?>
                                 <option value="<?php echo esc_attr($option); ?>"><?php echo esc_html($option); ?></option>
                             <?php endforeach; ?>

@@ -1,6 +1,6 @@
 <?php
 
-namespace ACF\Api;
+namespace PSCF\Api;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -53,13 +53,13 @@ class RestApi
 
     public function getForms(\WP_REST_Request $request): \WP_REST_Response
     {
-        $forms = \ACF\Core\Database::getForms();
+        $forms = \PSCF\Core\Database::getForms();
         return new \WP_REST_Response($forms, 200);
     }
 
     public function getForm(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
     {
-        $form = \ACF\Core\Database::getForm((int) $request['id']);
+        $form = \PSCF\Core\Database::getForm((int) $request['id']);
 
         if (!$form) {
             return new \WP_Error('not_found', 'Form not found', ['status' => 404]);
@@ -72,7 +72,7 @@ class RestApi
     public function submitForm(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
     {
         $form_id = (int) $request['id'];
-        $form = \ACF\Core\Database::getForm($form_id);
+        $form = \PSCF\Core\Database::getForm($form_id);
 
         if (!$form) {
             return new \WP_Error('not_found', 'Form not found', ['status' => 404]);
@@ -123,11 +123,11 @@ class RestApi
         $submitted_data = apply_filters('pscf_submission_data', $submitted_data, $form_id);
 
         // Save submission
-        $submission_id = \ACF\Core\Database::createSubmission([
+        $submission_id = \PSCF\Core\Database::createSubmission([
             'form_id' => $form_id,
             'data' => $submitted_data,
-            'ip_address' => $_SERVER['REMOTE_ADDR'] ?? '',
-            'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+            'ip_address' => sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'] ?? '')),
+            'user_agent' => sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'] ?? '')),
         ]);
 
         // Send email notification
@@ -145,7 +145,7 @@ class RestApi
     public function getSubmissions(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
     {
         $form_id = (int) $request['id'];
-        $form = \ACF\Core\Database::getForm($form_id);
+        $form = \PSCF\Core\Database::getForm($form_id);
 
         if (!$form) {
             return new \WP_Error('not_found', 'Form not found', ['status' => 404]);
@@ -155,8 +155,8 @@ class RestApi
         $per_page = 20;
         $offset = ($page - 1) * $per_page;
 
-        $submissions = \ACF\Core\Database::getSubmissions($form_id, $per_page, $offset);
-        $total = \ACF\Core\Database::countSubmissions($form_id);
+        $submissions = \PSCF\Core\Database::getSubmissions($form_id, $per_page, $offset);
+        $total = \PSCF\Core\Database::countSubmissions($form_id);
 
         foreach ($submissions as &$submission) {
             $submission['data'] = json_decode($submission['data'], true);
