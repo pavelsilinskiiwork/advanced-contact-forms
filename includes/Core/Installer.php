@@ -1,6 +1,6 @@
 <?php
 
-namespace PSCF\Core;
+namespace PavelSilinskii\ContactForms\Core;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -27,7 +27,7 @@ class Installer
         $charset_collate = $wpdb->get_charset_collate();
 
         // Forms table
-        $forms_table = $wpdb->prefix . 'pscf_forms';
+        $forms_table = $wpdb->prefix . 'pavel_silinskii_contact_forms_forms';
         $sql_forms = "CREATE TABLE IF NOT EXISTS $forms_table (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             name varchar(255) NOT NULL,
@@ -43,7 +43,7 @@ class Installer
         ) $charset_collate;";
 
         // Submissions table
-        $submissions_table = $wpdb->prefix . 'pscf_submissions';
+        $submissions_table = $wpdb->prefix . 'pavel_silinskii_contact_forms_submissions';
         $sql_submissions = "CREATE TABLE IF NOT EXISTS $submissions_table (
             id bigint(20) NOT NULL AUTO_INCREMENT,
             form_id bigint(20) NOT NULL,
@@ -63,8 +63,8 @@ class Installer
 
     private static function createDefaultOptions(): void
     {
-        add_option('pscf_version', PSCF_VERSION);
-        add_option('pscf_email_from', get_option('admin_email'));
-        add_option('pscf_spam_protection', '1');
+        add_option('pavel_silinskii_contact_forms_version', PAVEL_SILINSKII_CONTACT_FORMS_VERSION);
+        add_option('pavel_silinskii_contact_forms_email_from', get_option('admin_email'));
+        add_option('pavel_silinskii_contact_forms_spam_protection', '1');
     }
 }

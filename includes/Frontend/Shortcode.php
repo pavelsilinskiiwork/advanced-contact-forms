@@ -1,6 +1,6 @@
 <?php
 
-namespace PSCF\Frontend;
+namespace PavelSilinskii\ContactForms\Frontend;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -17,21 +17,21 @@ class Shortcode
     public function enqueueAssets(): void
     {
         wp_enqueue_style(
-            'pscf-frontend',
-            PSCF_PLUGIN_URL . 'assets/css/frontend.css',
+            'pavel-silinskii-contact-forms-frontend',
+            PAVEL_SILINSKII_CONTACT_FORMS_PLUGIN_URL . 'assets/css/frontend.css',
             [],
-            PSCF_VERSION
+            PAVEL_SILINSKII_CONTACT_FORMS_VERSION
         );
 
         wp_enqueue_script(
-            'pscf-frontend',
-            PSCF_PLUGIN_URL . 'assets/js/frontend.js',
+            'pavel-silinskii-contact-forms-frontend',
+            PAVEL_SILINSKII_CONTACT_FORMS_PLUGIN_URL . 'assets/js/frontend.js',
             ['jquery'],
-            PSCF_VERSION,
+            PAVEL_SILINSKII_CONTACT_FORMS_VERSION,
             true
         );
 
-        wp_localize_script('pscf-frontend', 'pscfFrontend', [
+        wp_localize_script('pavel-silinskii-contact-forms-frontend', 'pavelSilinskiiContactFormsFrontend', [
             'restUrl' => rest_url('pavelsilinskii-cf/v1/'),
             'nonce' => wp_create_nonce('wp_rest'),
         ]);
@@ -46,7 +46,7 @@ class Shortcode
             return '<p class="acf-error">Please specify a form ID.</p>';
         }
 
-        $form = \PSCF\Core\Database::getForm($form_id);
+        $form = \PavelSilinskii\ContactForms\Core\Database::getForm($form_id);
 
         if (!$form || !$form['is_active']) {
             return '<p class="acf-error">Form not found or inactive.</p>';
@@ -55,7 +55,7 @@ class Shortcode
         $fields = json_decode($form['fields'], true) ?? [];
 
         ob_start();
-        include PSCF_PLUGIN_DIR . 'templates/frontend/form.php';
+        include PAVEL_SILINSKII_CONTACT_FORMS_PLUGIN_DIR . 'templates/frontend/form.php';
         return ob_get_clean();
     }
 }

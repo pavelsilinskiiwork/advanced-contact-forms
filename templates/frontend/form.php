@@ -28,7 +28,7 @@
                             id="acf-<?php echo esc_attr($field['name']); ?>"
                             name="<?php echo esc_attr($field['name']); ?>"
                             <?php echo !empty($field['required']) ? 'required' : ''; ?>>
-                            <option value=""><?php esc_html_e('Select...', 'contact-forms-by-pavel-silinskii'); ?></option>
+                            <option value=""><?php esc_html_e('Select...', 'pavel-silinskii-contact-forms'); ?></option>
                             <?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- local to this template, included from a class method; not a real global. ?>
                             <?php foreach ($field['options'] ?? [] as $option): ?>
                                 <option value="<?php echo esc_attr($option); ?>"><?php echo esc_html($option); ?></option>
@@ -65,7 +65,7 @@
 
         <div class="acf-submit">
             <button type="submit" class="acf-submit-btn">
-                <?php esc_html_e('Send Message', 'contact-forms-by-pavel-silinskii'); ?>
+                <?php esc_html_e('Send Message', 'pavel-silinskii-contact-forms'); ?>
             </button>
             <span class="acf-spinner" style="display:none">⏳</span>
         </div>

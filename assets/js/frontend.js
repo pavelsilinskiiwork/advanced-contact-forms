@@ -29,12 +29,12 @@ jQuery(function ($) {
         spinner.show();
 
       $.ajax({
-    url: pscfFrontend.restUrl + 'forms/' + formId + '/submit',
+    url: pavelSilinskiiContactFormsFrontend.restUrl + 'forms/' + formId + '/submit',
     method: 'POST',
     contentType: 'application/json',
     data: JSON.stringify(formData),
     beforeSend: function (xhr) {
-        xhr.setRequestHeader('X-WP-Nonce', pscfFrontend.nonce);
+        xhr.setRequestHeader('X-WP-Nonce', pavelSilinskiiContactFormsFrontend.nonce);
     },
             success: function (response) {
                 if (response.success) {

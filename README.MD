@@ -1,4 +1,4 @@
-# Contact Forms by Pavel Silinskii
+# Pavel Silinskii Contact Forms
 
 ![WordPress](https://img.shields.io/badge/WordPress-5.9%2B-21759B?logo=wordpress&logoColor=white)
 ![PHP](https://img.shields.io/badge/PHP-8.0%2B-777BB4?logo=php&logoColor=white)
@@ -62,7 +62,7 @@ View all form submissions directly in the admin, or export to CSV.
 ### Manual Installation
 
 1. Download or clone this repository
-2. Upload the `contact-forms-by-pavel-silinskii` folder to `/wp-content/plugins/`
+2. Upload the `pavel-silinskii-contact-forms` folder to `/wp-content/plugins/`
 3. Activate the plugin in **WordPress Admin → Plugins**
 4. Go to **Contact Forms** in the admin menu to create your first form
 
@@ -283,8 +283,8 @@ Enable/disable in **Contact Forms → Settings → Spam Protection**.
 ## Project Structure
 
 ```
-contact-forms-by-pavel-silinskii/
-├── contact-forms-by-pavel-silinskii.php    # Main plugin file
+pavel-silinskii-contact-forms/
+├── pavel-silinskii-contact-forms.php    # Main plugin file
 ├── includes/
 │   ├── Core/
 │   │   ├── Plugin.php            # Plugin bootstrap
@@ -319,7 +319,7 @@ contact-forms-by-pavel-silinskii/
 
 The plugin creates two tables on activation:
 
-### `{prefix}pscf_forms`
+### `{prefix}pavel_silinskii_contact_forms_forms`
 | Column | Type | Description |
 |--------|------|-------------|
 | id | bigint | Primary key |
@@ -333,7 +333,7 @@ The plugin creates two tables on activation:
 | created_at | datetime | Creation timestamp |
 | updated_at | datetime | Last update timestamp |
 
-### `{prefix}pscf_submissions`
+### `{prefix}pavel_silinskii_contact_forms_submissions`
 | Column | Type | Description |
 |--------|------|-------------|
 | id | bigint | Primary key |
@@ -358,13 +358,13 @@ The plugin creates two tables on activation:
 
 ```php
 // Runs after successful form submission
-do_action('pscf_form_submitted', $submission_id, $form_id, $data);
+do_action('pavel_silinskii_contact_forms_form_submitted', $submission_id, $form_id, $data);
 
 // Filter form fields before rendering
-apply_filters('pscf_form_fields', $fields, $form_id);
+apply_filters('pavel_silinskii_contact_forms_form_fields', $fields, $form_id);
 
 // Filter submission data before saving
-apply_filters('pscf_submission_data', $data, $form_id);
+apply_filters('pavel_silinskii_contact_forms_submission_data', $data, $form_id);
 ```
 
 ---

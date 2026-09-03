@@ -1,6 +1,6 @@
 <?php
 
-namespace PSCF\Core;
+namespace PavelSilinskii\ContactForms\Core;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -17,16 +17,16 @@ class Plugin
     {
         // Admin
         if (is_admin()) {
-            $admin = new \PSCF\Admin\AdminMenu();
+            $admin = new \PavelSilinskii\ContactForms\Admin\AdminMenu();
             $admin->init();
         }
 
         // REST API
-        $api = new \PSCF\Api\RestApi();
+        $api = new \PavelSilinskii\ContactForms\Api\RestApi();
         $api->init();
 
         // Frontend
-        $frontend = new \PSCF\Frontend\Shortcode();
+        $frontend = new \PavelSilinskii\ContactForms\Frontend\Shortcode();
         $frontend->init();
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace PSCF\Core;
+namespace PavelSilinskii\ContactForms\Core;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -11,25 +11,25 @@ class Database
     private static string $forms_table;
     private static string $submissions_table;
 
-    private const CACHE_GROUP = 'pscf';
+    private const CACHE_GROUP = 'pavel-silinskii-contact-forms';
 
     public static function init(): void
     {
         global $wpdb;
-        self::$forms_table = $wpdb->prefix . 'pscf_forms';
-        self::$submissions_table = $wpdb->prefix . 'pscf_submissions';
+        self::$forms_table = $wpdb->prefix . 'pavel_silinskii_contact_forms_forms';
+        self::$submissions_table = $wpdb->prefix . 'pavel_silinskii_contact_forms_submissions';
     }
 
     public static function getFormsTable(): string
     {
         global $wpdb;
-        return $wpdb->prefix . 'pscf_forms';
+        return $wpdb->prefix . 'pavel_silinskii_contact_forms_forms';
     }
 
     public static function getSubmissionsTable(): string
     {
         global $wpdb;
-        return $wpdb->prefix . 'pscf_submissions';
+        return $wpdb->prefix . 'pavel_silinskii_contact_forms_submissions';
     }
 
     /**

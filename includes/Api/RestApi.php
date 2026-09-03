@@ -1,6 +1,6 @@
 <?php
 
-namespace PSCF\Api;
+namespace PavelSilinskii\ContactForms\Api;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -53,26 +53,26 @@ class RestApi
 
     public function getForms(\WP_REST_Request $request): \WP_REST_Response
     {
-        $forms = \PSCF\Core\Database::getForms();
+        $forms = \PavelSilinskii\ContactForms\Core\Database::getForms();
         return new \WP_REST_Response($forms, 200);
     }
 
     public function getForm(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
     {
-        $form = \PSCF\Core\Database::getForm((int) $request['id']);
+        $form = \PavelSilinskii\ContactForms\Core\Database::getForm((int) $request['id']);
 
         if (!$form) {
             return new \WP_Error('not_found', 'Form not found', ['status' => 404]);
         }
 
-        $form['fields'] = apply_filters('pscf_form_fields', json_decode($form['fields'], true), $form['id']);
+        $form['fields'] = apply_filters('pavel_silinskii_contact_forms_form_fields', json_decode($form['fields'], true), $form['id']);
         return new \WP_REST_Response($form, 200);
     }
 
     public function submitForm(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
     {
         $form_id = (int) $request['id'];
-        $form = \PSCF\Core\Database::getForm($form_id);
+        $form = \PavelSilinskii\ContactForms\Core\Database::getForm($form_id);
 
         if (!$form) {
             return new \WP_Error('not_found', 'Form not found', ['status' => 404]);
@@ -83,7 +83,7 @@ class RestApi
         }
 
         // Spam protection
-        if (get_option('pscf_spam_protection') === '1') {
+        if (get_option('pavel_silinskii_contact_forms_spam_protection') === '1') {
             $honeypot = $request->get_param('website');
             if (!empty($honeypot)) {
                 return new \WP_REST_Response([
@@ -120,10 +120,10 @@ class RestApi
             ]);
         }
 
-        $submitted_data = apply_filters('pscf_submission_data', $submitted_data, $form_id);
+        $submitted_data = apply_filters('pavel_silinskii_contact_forms_submission_data', $submitted_data, $form_id);
 
         // Save submission
-        $submission_id = \PSCF\Core\Database::createSubmission([
+        $submission_id = \PavelSilinskii\ContactForms\Core\Database::createSubmission([
             'form_id' => $form_id,
             'data' => $submitted_data,
             'ip_address' => sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'] ?? '')),
@@ -133,7 +133,7 @@ class RestApi
         // Send email notification
         $this->sendNotification($form, $submitted_data);
 
-        do_action('pscf_form_submitted', $submission_id, $form_id, $submitted_data);
+        do_action('pavel_silinskii_contact_forms_form_submitted', $submission_id, $form_id, $submitted_data);
 
         return new \WP_REST_Response([
             'success' => true,
@@ -145,7 +145,7 @@ class RestApi
     public function getSubmissions(\WP_REST_Request $request): \WP_REST_Response|\WP_Error
     {
         $form_id = (int) $request['id'];
-        $form = \PSCF\Core\Database::getForm($form_id);
+        $form = \PavelSilinskii\ContactForms\Core\Database::getForm($form_id);
 
         if (!$form) {
             return new \WP_Error('not_found', 'Form not found', ['status' => 404]);
@@ -155,8 +155,8 @@ class RestApi
         $per_page = 20;
         $offset = ($page - 1) * $per_page;
 
-        $submissions = \PSCF\Core\Database::getSubmissions($form_id, $per_page, $offset);
-        $total = \PSCF\Core\Database::countSubmissions($form_id);
+        $submissions = \PavelSilinskii\ContactForms\Core\Database::getSubmissions($form_id, $per_page, $offset);
+        $total = \PavelSilinskii\ContactForms\Core\Database::countSubmissions($form_id);
 
         foreach ($submissions as &$submission) {
             $submission['data'] = json_decode($submission['data'], true);
@@ -174,7 +174,7 @@ class RestApi
     {
         $to = $form['email_to'] ?: get_option('admin_email');
         $subject = $form['email_subject'] ?: 'New Form Submission';
-        $from = get_option('pscf_email_from', get_option('admin_email'));
+        $from = get_option('pavel_silinskii_contact_forms_email_from', get_option('admin_email'));
 
         $message = "New submission received:\n\n";
         foreach ($data as $key => $value) {
